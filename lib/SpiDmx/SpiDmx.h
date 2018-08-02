@@ -9,18 +9,12 @@
 
 enum COMM_MODE
 {
-  SEND_DATA = 0x01,
-  RECEIVE_DATA = 0x00,
-  COMMAND = 0x02
-};
-
-enum DMX_COMMAND
-{
-  SET_SENDER_MODE=0x01,
-  SET_RECEIVER_MODE=0x00,
-  SET_DEBUG_MODE=0x02,
-  GET_BUFFER=0x03
-};
+    SEND_DATA=0x01,
+    RECEIVE_DATA=0x00,
+    COMMAND=0x02,
+    IDLE=0x03,
+    DEBUG=0x04
+} ;
 
 class SSPIDMXclass
 {
@@ -28,11 +22,8 @@ class SSPIDMXclass
     int SS_Pin;
     int RxCounter=0;
     int TxCounter=0;
-    void SetSenderMode(void);
-    void SetReceiverMode(void);
-    void SendReceive(void);
-    //void SendReceive(unsigned char * buff);
-    void SendReceive(unsigned char * buff,DMX_COMMAND cmd);
+    char tmp[100];
+    void SendReceive(COMM_MODE dmxMode);
     void debug(const char * data);
     void debug(char * data);
   public:
@@ -46,10 +37,11 @@ class SSPIDMXclass
     void resetBuffer(unsigned char * buf);
     void enableSlave(void);
     void disableSlave(void);
-    char * receiveDmxData();
-    void sendDmxData(unsigned char * buff);
-    void sendCommand(DMX_COMMAND cmd);
-
+    void writeChannel(int channel, unsigned char value);
+    unsigned char readChannel(int channel);
+    void sendDMX(void);
+    void readDMX(void);
+    void debugDMX(void);
 } ;
 
 #endif
