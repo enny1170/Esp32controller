@@ -6,7 +6,9 @@
 #include <SPI.h>
 #include <SpiDmx.h>
 
-SSPIDMXclass Controler(SS);
+#define DMX_MODE_PIN 15
+
+SSPIDMXclass Controler(SS,DMX_MODE_PIN);
 int counter=0;
 
 void setup (void)

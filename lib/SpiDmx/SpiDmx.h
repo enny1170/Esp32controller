@@ -28,12 +28,14 @@ class SSPIDMXclass
     void debug(char * data);
   public:
     SSPIDMXclass(int ssPin);
+    SSPIDMXclass(int ssPin,int modePin);
     ~SSPIDMXclass() {}
 
     unsigned char Rx_Buffer[512];
     unsigned char Tx_Buffer[512];
     bool Debug=false;
     int DebugLevel=0;
+    int Mode_Pin=5;
     void resetBuffer(unsigned char * buf);
     void enableSlave(void);
     void disableSlave(void);

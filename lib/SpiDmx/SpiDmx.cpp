@@ -13,6 +13,16 @@
         Serial.println("Init DMX Class..");
         SS_Pin = ssPin;
         pinMode(SS_Pin,OUTPUT);
+        pinMode(Mode_Pin,OUTPUT);
+    }
+
+    SSPIDMXclass::SSPIDMXclass(int ssPin,int modePin)
+    {
+        Serial.println("Init DMX Class..");
+        SS_Pin = ssPin;
+        Mode_Pin=modePin;
+        pinMode(SS_Pin,OUTPUT);
+        pinMode(Mode_Pin,OUTPUT);
     }
 
     void SSPIDMXclass::resetBuffer(unsigned char * buf)
@@ -46,8 +56,18 @@
         resetBuffer(Rx_Buffer);        
         enableSlave();
         // Transfer Mode Byte
-        c=SPI.transfer((unsigned char)dmxMode);   
-        // wait a liitle bit, give the dive time to init
+        // c=SPI.transfer((unsigned char)dmxMode);   
+        // Set ModePin by Mode
+        if(dmxMode==SEND_DATA)
+        {
+            digitalWrite(Mode_Pin,LOW);
+        }
+        else
+        {
+            digitalWrite(Mode_Pin,HIGH);
+        }
+        // wait a little bit, give the dive time to init
+        // mybe we have to use vTaskDelay
         delayMicroseconds(20);     
         for(size_t i = 0; i < 512; i++)
         {
