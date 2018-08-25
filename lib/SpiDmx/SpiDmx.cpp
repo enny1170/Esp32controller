@@ -74,7 +74,7 @@
             unsigned char w = Tx_Buffer[i];
             c = SPI.transfer(w);
             Rx_Buffer[i] = c;
-            if (DebugLevel > 3)
+            if (DebugLevel > 3 && i<8)
             {
                 sprintf(tmp,"Channel %i s=%i, r=%i",i,(int)Tx_Buffer[i],(int)Rx_Buffer[i]);
                 debug(tmp);

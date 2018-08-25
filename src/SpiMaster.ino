@@ -24,7 +24,7 @@ void setup (void)
 
   // Slow down the master a bit
   // SPI.setClockDivider(SPI_CLoCK_DIV8);
-  SPI.setClockDivider(SPI_CLOCK_DIV16);
+  //SPI.setClockDivider(SPI_CLOCK_DIV8);
   //SPI.setBitOrder(LSBFIRST);
   //digitalWrite(SS,LOW);
   Controler.debugDMX();
@@ -62,9 +62,10 @@ void loop (void)
       break;
   }
   Serial.println("Sending Data");
+  //printState();
   Controler.sendDMX();
   Serial.print("wait");  
-  delay (1000);  // 1 second delay 
+  delay (30);  // 1 second delay 
 }  // end of loop
 
 struct spiDmxPackage
@@ -80,35 +81,35 @@ void setRed(void)
   Controler.writeChannel(3,0);
   Controler.writeChannel(4,0);
   Controler.writeChannel(5,0);
-  Controler.writeChannel(6,120);
+  Controler.writeChannel(6,20);
 }
 
 void setGreen(void)
 {
   Controler.writeChannel(1,255);
-  Controler.writeChannel(2,255);
-  Controler.writeChannel(3,0);
+  Controler.writeChannel(2,0);
+  Controler.writeChannel(3,255);
   Controler.writeChannel(4,0);
   Controler.writeChannel(5,0);
-  Controler.writeChannel(6,120);
+  Controler.writeChannel(6,20);
 }
 void setBlue(void)
 {
   Controler.writeChannel(1,255);
-  Controler.writeChannel(2,255);
+  Controler.writeChannel(2,0);
   Controler.writeChannel(3,0);
-  Controler.writeChannel(4,0);
+  Controler.writeChannel(4,255);
   Controler.writeChannel(5,0);
-  Controler.writeChannel(6,120);
+  Controler.writeChannel(6,20);
 }
 void setWhite(void)
 {
   Controler.writeChannel(1,255);
-  Controler.writeChannel(2,255);
+  Controler.writeChannel(2,0);
   Controler.writeChannel(3,0);
   Controler.writeChannel(4,0);
-  Controler.writeChannel(5,0);
-  Controler.writeChannel(6,120);
+  Controler.writeChannel(5,255);
+  Controler.writeChannel(6,20);
 }
 
 void setOff(void)
@@ -116,9 +117,27 @@ void setOff(void)
   // Master Dimmer
   Controler.writeChannel(1,255);
   // Jump Change
-  Controler.writeChannel(6,120);  
+  Controler.writeChannel(6,20);  
   Controler.writeChannel(2,0);  
   Controler.writeChannel(3,0);  
   Controler.writeChannel(4,0);  
   Controler.writeChannel(5,0);  
+}
+
+void printState(void)
+{
+  char tmp[100];
+  sprintf(tmp,"%i - %i",(int)Controler.Tx_Buffer[0],0);
+  Serial.println(tmp);
+  sprintf(tmp,"%i - %i",(int)Controler.Tx_Buffer[1],1);
+  Serial.println(tmp);
+  sprintf(tmp,"%i - %i",(int)Controler.Tx_Buffer[2],2);
+  Serial.println(tmp);
+  sprintf(tmp,"%i - %i",(int)Controler.Tx_Buffer[3],3);
+  Serial.println(tmp);
+  sprintf(tmp,"%i - %i",(int)Controler.Tx_Buffer[4],4);
+  Serial.println(tmp);
+  sprintf(tmp,"%i - %i",(int)Controler.Tx_Buffer[5],5);
+  Serial.println(tmp);
+
 }
